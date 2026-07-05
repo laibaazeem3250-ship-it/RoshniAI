@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoshniAI — Global University Guide</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            width: 100%;
+            padding: 20px 40px;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(90deg, #f7971e, #ffd200);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tagline {
+            color: rgba(255,255,255,0.6);
+            font-size: 13px;
+        }
+
+        .badge {
+            margin-left: auto;
+            background: linear-gradient(90deg, #f7971e, #ffd200);
+            color: #000;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 850px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            gap: 15px;
+        }
+
+        .welcome-card {
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(247,151,30,0.3);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .welcome-card h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #f7971e, #ffd200);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .welcome-card p {
+            color: rgba(255,255,255,0.7);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .agents-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .agent-chip {
+            background: rgba(247,151,30,0.15);
+            border: 1px solid rgba(247,151,30,0.4);
+            color: #ffd200;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        #messages {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            min-height: 300px;
+            max-height: 450px;
+        }
+
+        .message {
+            display: flex;
+            gap: 10px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.user { flex-direction: row-reverse; }
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .avatar.ai {
+            background: linear-gradient(135deg, #f7971e, #ffd200);
+        }
+
+        .avatar.user {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .bubble {
+            max-width: 75%;
+            padding: 14px 18px;
+            border-radius: 18px;
+            font-size: 14px;
+            line-height: 1.7;
+            white-space: pre-wrap;
+        }
+
+        .bubble.ai {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #fff;
+            border-top-left-radius: 4px;
+        }
+
+        .bubble.user {
+            background: linear-gradient(135deg, #f7971e, #ffd200);
+            color: #000;
+            font-weight: 500;
+            border-top-right-radius: 4px;
+        }
+
+        .input-area {
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 20px;
+            padding: 15px 20px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        #userInput {
+            flex: 1;
+            background: none;
+            border: none;
+            outline: none;
+            color: white;
+            font-size: 15px;
+        }
+
+        #userInput::placeholder { color: rgba(255,255,255,0.4); }
+
+        #sendBtn {
+            background: linear-gradient(135deg, #f7971e, #ffd200);
+            border: none;
+            color: #000;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+
+        #sendBtn:hover { transform: scale(1.1); }
+
+        .typing {
+            display: flex;
+            gap: 5px;
+            padding: 10px 15px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 18px;
+            width: fit-content;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: #ffd200;
+            border-radius: 50%;
+            animation: bounce 1s infinite;
+        }
+
+        .dot:nth-child(2) { animation-delay: 0.2s; }
+        .dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .footer {
+            color: rgba(255,255,255,0.3);
+            font-size: 11px;
+            padding: 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div>
+        <div class="logo">🌟 RoshniAI</div>
+        <div class="tagline">Illuminating Every Student's Path</div>
+    </div>
+    <div class="badge">3 AI Agents + MCP</div>
+</div>
+
+<div class="chat-container">
+    <div class="welcome-card">
+        <h2>Welcome to RoshniAI 🌍</h2>
+        <p>Your Global University & Career Guidance System.<br>
+        Powered by 3 specialist AI agents working together to find your perfect university and scholarship!</p>
+        <div class="agents-row">
+            <div class="agent-chip">🎓 Profile Agent</div>
+            <div class="agent-chip">🏛️ University Finder</div>
+            <div class="agent-chip">💰 Scholarship Hunter</div>
+            <div class="agent-chip">🔌 MCP Server</div>
+            <div class="agent-chip">💾 Memory System</div>
+        </div>
+    </div>
+
+    <div id="messages"></div>
+
+    <div class="input-area">
+        <input type="text" id="userInput" 
+               placeholder="Tell me your grades, budget, country and field of study..." 
+               onkeypress="if(event.key==='Enter') sendMessage()"/>
+        <button id="sendBtn" onclick="sendMessage()">➤</button>
+    </div>
+</div>
+
+<div class="footer">RoshniAI — Built for AI Agents Intensive Vibe Coding Course with Google x Kaggle</div>
+
+<script>
+    const sessionId = 'session_' + Date.now();
+    
+    function addMessage(text, isUser) {
+        const msgs = document.getElementById('messages');
+        const div = document.createElement('div');
+        div.className = 'message ' + (isUser ? 'user' : 'ai');
+        div.innerHTML = `
+            <div class="avatar ${isUser ? 'user' : 'ai'}">${isUser ? '👤' : '🌟'}</div>
+            <div class="bubble ${isUser ? 'user' : 'ai'}">${text}</div>
+        `;
+        msgs.appendChild(div);
+        msgs.scrollTop = msgs.scrollHeight;
+    }
+
+    function showTyping() {
+        const msgs = document.getElementById('messages');
+        const div = document.createElement('div');
+        div.className = 'message ai';
+        div.id = 'typing';
+        div.innerHTML = `
+            <div class="avatar ai">🌟</div>
+            <div class="typing">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        `;
+        msgs.appendChild(div);
+        msgs.scrollTop = msgs.scrollHeight;
+    }
+
+    function removeTyping() {
+        const t = document.getElementById('typing');
+        if (t) t.remove();
+    }
+
+    // Initial greeting
+    window.onload = function() {
+        addMessage("Hi! I'm RoshniAI 🌟 I'm your personal university and scholarship guide!\n\nTell me about yourself:\n• What are your grades/percentage?\n• What's your budget per year (in USD)?\n• Which country do you want to study in?\n• What field do you want to study?", false);
+    }
+
+    async function sendMessage() {
+        const input = document.getElementById('userInput');
+        const msg = input.value.trim();
+        if (!msg) return;
+
+        addMessage(msg, true);
+        input.value = '';
+        showTyping();
+
+        try {
+            const res = await fetch('/chat', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({message: msg, session_id: sessionId})
+            });
+            const data = await res.json();
+            removeTyping();
+            addMessage(data.response, false);
+        } catch (e) {
+            removeTyping();
+            addMessage('Sorry, something went wrong. Please try again!', false);
+        }
+    }
+</script>
+</body>
+</html>
