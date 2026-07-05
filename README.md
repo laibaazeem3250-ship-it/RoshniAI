@@ -22,7 +22,7 @@ RoshniAI is a Multi-Agent AI system that helps students discover universities an
 - Understands academic background and preferences
 
 ### 🎓 University Agent
-- Recommends suitable universities from 30+ countries
+- Supports university recommendations across 30+ countries 
 - Matches universities according to the student's profile
 
 ### 💰 Scholarship Agent
@@ -79,10 +79,11 @@ Pakistan, USA, UK, Canada, Australia, Germany, Turkey, Malaysia, Japan, China, S
 - Flask
 - Groq API
 - MCP (Model Context Protocol)
-- HTML
-- CSS
-- JavaScript
-- Python Dotenv
+- HTML5
+- CSS3
+- JavaScript 
+- python-dotenv
+- Gunicorn (deployment ready)
 
 ---
 
