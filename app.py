@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request, jsonify
 import os
 import json
-import subprocess
-import threading
+import subprocess 
+import threading 
 from dotenv import load_dotenv
 from groq import Groq
 
@@ -120,5 +120,6 @@ def chat():
 
     return jsonify({'response': profile_response, 'agent': 'Agent 1 - Profile'})
 
-if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False) 
