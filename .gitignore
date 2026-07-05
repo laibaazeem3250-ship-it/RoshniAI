@@ -2,5 +2,5 @@
 venv/
 __pycache__/
 *.pyc
+.pycache/
 memory.json
-.env.example
