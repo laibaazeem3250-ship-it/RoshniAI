@@ -6,6 +6,14 @@ RoshniAI is a Multi-Agent AI system that helps students discover universities an
 
 ---
 
+## 📸 Project Preview
+
+### RoshniAI Web Interface
+
+![RoshniAI Web Interface](images/roshniai-demo.png)
+
+---
+
 ## 🤖 Agent Architecture
 
 ### 👤 Profile Agent
