@@ -99,7 +99,7 @@ cd RoshniAI
 ### 2. Install dependencies
 
 ```bash
-pip install flask groq python-dotenv mcp
+pip install -r requirements.txt
 ```
 
 ### 3. Create a `.env` file
